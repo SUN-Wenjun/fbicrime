@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1576101800298.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3111785890",
+    "id" : "BA53F72A",
+    "lastKnownWriteTime" : 1576102809,
+    "last_content_update" : 1576102809464,
+    "path" : "D:/BlogAndGithub/fbicrime/R/fbicrime.R",
+    "project_path" : "R/fbicrime.R",
+    "properties" : {
+        "cursorPosition" : "2,60",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

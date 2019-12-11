@@ -12,11 +12,11 @@
     "path" : "D:/BlogAndGithub/fbicrime/R/offender.R",
     "project_path" : "R/offender.R",
     "properties" : {
-        "cursorPosition" : "19,37",
-        "scrollLine" : "5",
+        "cursorPosition" : "31,0",
+        "scrollLine" : "19",
         "tempName" : "Untitled1"
     },
-    "relative_order" : 2,
+    "relative_order" : 3,
     "source_on_save" : false,
     "source_window" : "",
     "type" : "r_source"

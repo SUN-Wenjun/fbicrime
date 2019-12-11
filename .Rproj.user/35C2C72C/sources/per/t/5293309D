@@ -12,11 +12,11 @@
     "path" : "D:/BlogAndGithub/fbicrime/R/arrest.R",
     "project_path" : "R/arrest.R",
     "properties" : {
-        "cursorPosition" : "24,37",
-        "scrollLine" : "5",
+        "cursorPosition" : "35,0",
+        "scrollLine" : "14",
         "tempName" : "Untitled1"
     },
-    "relative_order" : 4,
+    "relative_order" : 5,
     "source_on_save" : false,
     "source_window" : "",
     "type" : "r_source"

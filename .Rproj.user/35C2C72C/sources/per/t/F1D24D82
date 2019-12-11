@@ -12,10 +12,10 @@
     "path" : "D:/BlogAndGithub/fbicrime/R/offense.R",
     "project_path" : "R/offense.R",
     "properties" : {
-        "cursorPosition" : "17,38",
-        "scrollLine" : "5"
+        "cursorPosition" : "27,85",
+        "scrollLine" : "14"
     },
-    "relative_order" : 1,
+    "relative_order" : 2,
     "source_on_save" : false,
     "source_window" : "",
     "type" : "r_source"
