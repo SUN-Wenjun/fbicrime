@@ -3,7 +3,6 @@
 #' summarize_victim() is a function that queries victim demographic information from FBI Crime API and returns a data frame.
 #'     You can specify offense type, aggregation level (national, agencies, regions, or states), and aggregation variable (age, ethnicity, etc.) in this function.
 #'
-#' Before calling any querying functions, you should pass your API KEY with \code{set_fbi_crime_api_key()}.
 #'
 #' @param offense a string or a list, the offense type(s) to request. Required.
 #' @param level a string, the level of aggregation. It can be \code{national}, \code{agencies}, \code{regions}, or \code{states}.
@@ -15,8 +14,9 @@
 #'     Note, when \code{level = 'national'}, this parameter should be \code{NULL}.
 #' @param variable a string, the rule for aggregating. It can be \code{age}, \code{ethnicity}, \code{race}, \code{sex}, \code{relationship}, or \code{count}.
 #'     If omitted, \code{count} is assumed.
-#' @param api_key a srting, the API key for FBI Crime API. Required. Default is to get the key from global option
-#'     You can input the key here as a argument,
+#' @param api_key a srting, the API key for FBI Crime API. Required. Default is to get the key from global option，
+#'     so if you have passed the API key to \code{set_fbi_crime_api_key()}, then this parameter is not necessary.
+#'     In other words, you can either input the key here as a argument,
 #'     or you can call function \code{set_fbi_crime_api_key()} to set key for FBI Crime API as a global option first.
 #'
 #' @import httr

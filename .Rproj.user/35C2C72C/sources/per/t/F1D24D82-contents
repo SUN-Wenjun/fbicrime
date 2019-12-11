@@ -13,8 +13,9 @@
 #'     If \code{level = 'regions'} , then specify what regions to include here. There are four region categories available for choosing: Northeast, Midwest, West, and South.
 #'     If \code{level = 'states'}, then specify state abbreviations here, e.g. \code{c('AL', 'AZ')}.
 #'     Note, when \code{level = 'national'}, this parameter should be \code{NULL}.
-#' @param api_key a srting, the API key for FBI Crime API. Required. Default is to get the key from global option
-#'     You can input the key here as a argument,
+#' @param api_key a srting, the API key for FBI Crime API. Required. Default is to get the key from global option,
+#'     so if you have passed the API key to \code{set_fbi_crime_api_key()}, then this parameter is not necessary.
+#'     In other words, you can either input the key here as a argument,
 #'     or you can call function \code{set_fbi_crime_api_key()} to set key for FBI Crime API as a global option first.
 #'
 #' @import httr

@@ -4,8 +4,6 @@
 #'     You can choose whether to summarize by offense type or not with \code{by_offense_type} and input the offense(s) with \code{offense}.
 #'     You can also specify aggregation level (national, agencies, regions, or states), aggregation variable (age, ethnicity, etc.), and time span in this function.
 #'
-#' Before calling any querying functions, you should pass your API KEY with \code{set_fbi_crime_api_key()}.
-#'
 #' @param by_offense_type a boolean. \code{TRUE} means to summarize by offense type, \code{FALSE} means to return information about all offense types.
 #'     If omitted, \code{FALSE} is assumed.
 #' @param offense a string or a list, the offense type(s) to request.
@@ -22,8 +20,9 @@
 #'     Required.
 #' @param since a number, the year to start
 #' @param until a number, the year to end
-#' @param api_key a srting, the API key for FBI Crime API. Required. Default is to get the key from global option
-#'     You can input the key here as a argument,
+#' @param api_key a srting, the API key for FBI Crime API. Required. Default is to get the key from global option,
+#'     so if you have passed the API key to \code{set_fbi_crime_api_key()}, then this parameter is not necessary.
+#'     In order word, you can either input the key here as a argument,
 #'     or you can call function \code{set_fbi_crime_api_key()} to set key for FBI Crime API as a global option first.
 #'
 #' @import httr

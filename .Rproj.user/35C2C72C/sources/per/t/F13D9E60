@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1576100410733.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4226029918",
+    "id" : "F13D9E60",
+    "lastKnownWriteTime" : 1576084615,
+    "last_content_update" : 1576084615,
+    "path" : "D:/BlogAndGithub/fbicrime/R/fbi_crime_api_key.R",
+    "project_path" : "R/fbi_crime_api_key.R",
+    "properties" : {
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

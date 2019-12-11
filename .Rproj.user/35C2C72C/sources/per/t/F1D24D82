@@ -5,15 +5,15 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "3619335334",
+    "hash" : "4064834697",
     "id" : "F1D24D82",
-    "lastKnownWriteTime" : 1576091358,
-    "last_content_update" : 1576091358102,
-    "path" : "D:/Columbia_QMSS/2019Fall/GR5072_Modern_Data_Structures/Sun_Wenjun/Final_Project/fbicrime/R/offense.R",
+    "lastKnownWriteTime" : 1576101642,
+    "last_content_update" : 1576101642907,
+    "path" : "D:/BlogAndGithub/fbicrime/R/offense.R",
     "project_path" : "R/offense.R",
     "properties" : {
-        "cursorPosition" : "82,8",
-        "scrollLine" : "71"
+        "cursorPosition" : "17,38",
+        "scrollLine" : "5"
     },
     "relative_order" : 1,
     "source_on_save" : false,
