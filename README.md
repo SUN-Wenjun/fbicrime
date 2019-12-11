@@ -4,9 +4,10 @@ This package is an R wrapper for the [FBI Crime API](https://crime-data-explorer
 
 ## How to install
 ```R
-#install.packages("devtools")
-#library(devtools)
+# install.packages("devtools")
+# library(devtools)
 
 install_github("SUN-Wenjun/fbicrime")
 library(fbicrime)
 ```
+## [a Medium post](https://medium.com/@wenjun.sarah.sun/an-r-wrapper-for-fbi-crime-api-a80f8586e0ff?sk=598e89e2f68eea689cef9c7c92f90ce0) about this package
