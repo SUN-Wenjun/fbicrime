@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1576090012377.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "320387539",
+    "id" : "BA85EC83",
+    "lastKnownWriteTime" : 1576090653,
+    "last_content_update" : 1576090653082,
+    "path" : "D:/Columbia_QMSS/2019Fall/GR5072_Modern_Data_Structures/Sun_Wenjun/Final_Project/fbicrime/R/victim.R",
+    "project_path" : "R/victim.R",
+    "properties" : {
+        "cursorPosition" : "64,13",
+        "scrollLine" : "51",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

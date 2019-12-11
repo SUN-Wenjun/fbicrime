@@ -1,0 +1,25 @@
+Package: fbicrime
+Type: Package
+Title: R wrapper for FBI Crime API
+Version: 0.1.0
+Authors@R: person('Wenjun', 'Sun', email = 'sunwenjun97@gmail.com', role = c("aut", "cre"))
+Description: FBI, Federal Bureau of Investigation, provides offense, offenders, victim, arrest data 
+    for the United States through an API named FBI Crime Data API. 
+    The fbicrime package package provides an R wrapper for the API, so that R users can directly 
+    access the most updated crime data from R.
+    See <https://crime-data-explorer.fr.cloud.gov/api> for the FBI Crime Data API description.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    dplyr,
+    httr,
+    jsonlite
+RoxygenNote: 6.1.99.9001
+Suggests: 
+    testthat (>= 2.1.0),
+    knitr,
+    rmarkdown
+BugReports: https://github.com/wenjun97/fbicrime/issues
+URL: https://github.com/wenjun97/fbicrime
+VignetteBuilder: knitr

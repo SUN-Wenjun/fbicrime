@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1576090017918.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2722255561",
+    "id" : "5293309D",
+    "lastKnownWriteTime" : 1576091562,
+    "last_content_update" : 1576091562148,
+    "path" : "D:/Columbia_QMSS/2019Fall/GR5072_Modern_Data_Structures/Sun_Wenjun/Final_Project/fbicrime/R/arrest.R",
+    "project_path" : "R/arrest.R",
+    "properties" : {
+        "cursorPosition" : "175,81",
+        "scrollLine" : "165",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
