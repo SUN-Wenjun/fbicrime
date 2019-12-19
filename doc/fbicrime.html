@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Wenjun Sun" />
+
+<meta name="date" content="2019-12-19" />
+
+<title>fbicrime: an R warpper for FBI Crime API</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">fbicrime: an R warpper for FBI Crime API</h1>
+<h4 class="author">Wenjun Sun</h4>
+<h4 class="date">2019-12-19</h4>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(fbicrime)</a></code></pre></div>
+<p>This vignette summarizes the functions in the <code>fbicrime</code> package. Although most of the information is available in the help document of each function, this vignette brings it all together in one place.</p>
+<div id="purpose-of-fbicrime" class="section level2">
+<h2>Purpose of <code>fbicrime</code></h2>
+<p>This package is an R wrapper for FBI Crime API, it aims to provide an easy access for R users to the most updated data about offense, offender, victim, and arrest from the FBI API. It also makes it possible to query multiple keywords at one time and return a combined data frame.</p>
+</div>
+<div id="set-api-key" class="section level2">
+<h2>Set API key</h2>
+<p>FBI Crime API is part of the Data.gov developer network. A key is required in order to access and use web services available on the Data.gov developer network. You can sign up for an API key at the <a href="https://api.data.gov/signup/">API Key Signup of data.gov</a>.</p>
+<p>For querying data from the FBI Crime API, you need to provide the key. You can eithor input the key to the <code>api_key</code> parameter of querying functions each time when you run the query, or you can also save your API key as a global option with the convenience function <code>set_fbi_crime_api_key()</code>. This function is for passing the key to the environment, so that you do not need to input the key every time. For example:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">set_fbi_crime_api_key</span>(<span class="st">'InputYourAPIKeyHere'</span>)</a></code></pre></div>
+</div>
+<div id="get-data-querying-functions" class="section level2">
+<h2>Get data: querying functions</h2>
+<p>FBI Crime API is a directory-based API. This package covers four categories of crime information - offense, offender, victim, and arrest, and within each category, there are several endpoints. Each of the endpoints has different syntax.</p>
+<p>For each category, the <code>fricrime</code> package provides a querying function. The querying functions allow users to specify keywords using variables, avoid navigating among different endpoints, and query multiple keywords at one time and get a combine data frame as the output.</p>
+<div id="get-offense-data" class="section level3">
+<h3>get <strong>Offense</strong> data</h3>
+<div id="count_offense" class="section level4">
+<h4>count_offense()</h4>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">count_offense</span>(offense, </a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">              <span class="dt">level =</span> <span class="st">'national'</span>, </a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">              <span class="dt">level_detail =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">              <span class="dt">api_key =</span> <span class="kw">getOption</span>(<span class="st">'fbicrime_api_key'</span>))</a></code></pre></div>
+<p><code>count_offense()</code> is a function for querying the count of different types of offense. You can specify offense type and aggregation level with variables:</p>
+<ul>
+<li><p><code>offense</code>, a string or a list, the offense type(s) to request. Required.</p></li>
+<li><p><code>level</code>, a string, the level of aggregation for counting. It can be ‘national’, ‘agencies’, ‘regions’, or ‘states’. If omitted, ‘national’ is assumed.</p></li>
+<li><code>level_detail</code>, a string or a list. Use this parameter to indicate what are the agencies/regions/states you want to query. For example,
+<ul>
+<li>when <code>level = 'agencies'</code>, then specify the ORI code of the agencies in <code>level_detail</code></li>
+<li>when <code>level = 'regions'</code>, then specify what regions to include here. There are four region categories available for choosing: ‘Northeast’, ‘Midwest’, ‘West’, and ‘South’.</li>
+<li>when <code>level = 'states'</code>, then specify state abbreviations here.</li>
+</ul>
+<p>But note, when <code>level = 'national'</code>, the <code>level_detail</code> should be <code>NULL</code>.</p></li>
+<li><p><code>api_key</code>, a string. Use this parameter to input the API key for one time use. Alternatively, you can call the function <code>set_fbi_crime_api_key()</code> first to save the key as a global option for later usage.</p></li>
+</ul>
+<p>Here are some examples for <code>count_offense()</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">count_offense</span>(<span class="dt">offense =</span> <span class="st">'burglary'</span>)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw">count_offense</span>(<span class="dt">offense =</span> <span class="st">'larceny'</span>, </a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">              <span class="dt">level =</span> <span class="st">'agencies'</span>, </a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">              <span class="dt">level_detail =</span> <span class="st">'MA0010100'</span>)</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="kw">count_offense</span>(<span class="dt">offense =</span> <span class="kw">c</span>(<span class="st">'burglary'</span>,<span class="st">'larceny'</span>), </a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">              <span class="dt">level =</span> <span class="st">'regions'</span>, </a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">              =<span class="st"> </span><span class="kw">c</span>(<span class="st">'South'</span>,<span class="st">'Northeast'</span>))</a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="kw">count_offense</span>(<span class="dt">offense =</span> <span class="st">'homicide'</span>, </a>
+<a class="sourceLine" id="cb4-12" data-line-number="12">              <span class="dt">level =</span> <span class="st">'states'</span>, </a>
+<a class="sourceLine" id="cb4-13" data-line-number="13">              <span class="dt">level_detail =</span> <span class="kw">c</span>(<span class="st">'AL'</span>, <span class="st">'AZ'</span>))</a></code></pre></div>
+</div>
+</div>
+<div id="get-offender-data" class="section level3">
+<h3>get <strong>Offender</strong> data</h3>
+<div id="summarize_offender" class="section level4">
+<h4>summarize_offender()</h4>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">summarize_offender</span>(offense, </a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">                   <span class="dt">level =</span> <span class="st">'national'</span>, </a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">                   <span class="dt">level_detail =</span> <span class="ot">NULL</span>, </a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">                   <span class="dt">variable =</span> <span class="st">'count'</span>,</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">                   <span class="dt">api_key =</span> <span class="kw">getOption</span>(<span class="st">'fbicrime_api_key'</span>))</a></code></pre></div>
+<p><code>summarize_offender()</code> queries offender demographic information. Similar to <code>count_offense()</code>, you can specify offense type with <code>offense</code> parameter and specify aggregation level with <code>level</code> and <code>level_detail</code> parameters. Apart from that, <code>summarize_offender()</code> function also allows you to choose aggregation variable (such as age, ethnicity, sex).</p>
+<ul>
+<li><p>Parameters <code>offense</code>, <code>level</code>, and <code>level_detail</code> have the same rules as they are in <code>count_offense()</code>.</p></li>
+<li><p><code>variable</code>, a string, it specify the rule for aggregating. For <code>summarize_offender()</code>, the argument of <code>variable</code> can be ‘age’, ‘ethnicity’, ‘race’, ‘sex’, or ‘count’. If omitted, ‘count’ is assumed.</p></li>
+<li><p><code>api_key</code>, a string. Use this parameter to input the API key for one time use. Alternatively, you can call the function <code>set_fbi_crime_api_key()</code> first to save the key as a global option for later usage.</p></li>
+</ul>
+<p>Here are some examples:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">summarize_offender</span>(<span class="dt">offense =</span> <span class="st">'burglary'</span>)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">summarize_offender</span>(<span class="dt">offense =</span> <span class="st">'aggravated-assault'</span>, </a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">                   <span class="dt">level =</span> <span class="st">'agencies'</span>, </a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">                   <span class="dt">level_detail =</span> <span class="st">'MA0010100'</span>, </a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">                   <span class="dt">variable =</span> <span class="st">'age'</span>)</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="kw">summarize_offender</span>(<span class="dt">offense =</span> <span class="kw">c</span>(<span class="st">'burglary'</span>,<span class="st">'arson'</span>), </a>
+<a class="sourceLine" id="cb6-9" data-line-number="9">                   <span class="dt">level =</span> <span class="st">'regions'</span>, </a>
+<a class="sourceLine" id="cb6-10" data-line-number="10">                   <span class="dt">level_detail =</span> <span class="kw">c</span>(<span class="st">'Northeast'</span>,<span class="st">'South'</span>), </a>
+<a class="sourceLine" id="cb6-11" data-line-number="11">                   <span class="dt">variable =</span> <span class="st">'sex'</span>)</a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="kw">summarize_offender</span>(<span class="dt">offense =</span> <span class="st">'arson'</span>, </a>
+<a class="sourceLine" id="cb6-14" data-line-number="14">                   <span class="dt">level =</span> <span class="st">'states'</span>, </a>
+<a class="sourceLine" id="cb6-15" data-line-number="15">                   <span class="dt">level_detail =</span> <span class="st">'NH'</span>, </a>
+<a class="sourceLine" id="cb6-16" data-line-number="16">                   <span class="dt">variable =</span> <span class="st">'race'</span>)</a></code></pre></div>
+</div>
+</div>
+<div id="get-victim-data" class="section level3">
+<h3>get <strong>Victim</strong> data</h3>
+<div id="summarize_victim" class="section level4">
+<h4>summarize_victim()</h4>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">summarize_victim</span>(offense, </a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">                 <span class="dt">level =</span> <span class="st">'national'</span>, </a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">                 <span class="dt">level_detail =</span> <span class="ot">NULL</span>, </a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">                 <span class="dt">variable =</span> <span class="st">'count'</span>,</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">                 <span class="dt">api_key =</span> <span class="kw">getOption</span>(<span class="st">'fbicrime_api_key'</span>))</a></code></pre></div>
+<p><code>summarize_victim()</code> is a function that queries victim demographic information. Similar to <code>summarize_offender()</code>, it uses four parameters - <code>offense</code>, <code>level</code>, <code>level_detail</code>, and <code>variable</code> to specify which segment of victim information to query.</p>
+<ul>
+<li><p>Parameters <code>offense</code>, <code>level</code>, and <code>level_detail</code> have the same rules as they are in <code>count_offense()</code>.</p></li>
+<li><p>Parameter <code>variable</code> is similar to that of function <code>summarize_offender()</code>, but <code>summarize_victim()</code> also allow you to aggregate based on the relationship between the victim and the offender. So the availabe arguments for the <code>variable</code> parameter of this function is: ‘age’, ‘ethnicity’, ‘race’, ‘sex’, ‘count’, <em>and ‘relationship’</em>.</p></li>
+<li><p><code>api_key</code>, a string. Use this parameter to input the API key for one time use. Alternatively, you can call the function <code>set_fbi_crime_api_key()</code> first to save the key as a global option for later usage.</p></li>
+</ul>
+<p>Here are some examples:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">summarize_victim</span>(<span class="dt">offense =</span> <span class="st">'violent-crime'</span>)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw">summarize_victim</span>(<span class="dt">offense =</span> <span class="st">'aggravated-assault'</span>, </a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">                 <span class="dt">level =</span> <span class="st">'agencies'</span>, </a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">                 <span class="dt">level_detail =</span> <span class="st">'MA0010100'</span>, </a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">                 <span class="dt">variable =</span> <span class="st">'age'</span>)</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="kw">summarize_victim</span>(<span class="dt">offense =</span> <span class="st">'property-crime'</span>, </a>
+<a class="sourceLine" id="cb8-9" data-line-number="9">                 <span class="dt">level =</span> <span class="st">'regions'</span>, </a>
+<a class="sourceLine" id="cb8-10" data-line-number="10">                 <span class="dt">level_detail =</span> <span class="kw">c</span>(<span class="st">'Midwest'</span>, <span class="st">'West'</span>), </a>
+<a class="sourceLine" id="cb8-11" data-line-number="11">                 <span class="dt">variable =</span> <span class="st">'relationship'</span>)</a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="kw">summarize_victim</span>(<span class="dt">offense =</span> <span class="st">'motor-vehicle-theft'</span>, </a>
+<a class="sourceLine" id="cb8-14" data-line-number="14">                 <span class="dt">level =</span> <span class="st">'states'</span>, </a>
+<a class="sourceLine" id="cb8-15" data-line-number="15">                 <span class="dt">level_detail =</span> <span class="st">'DC'</span>, </a>
+<a class="sourceLine" id="cb8-16" data-line-number="16">                 <span class="dt">variable =</span> <span class="st">'sex'</span>)</a>
+<a class="sourceLine" id="cb8-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="kw">summarize_victim</span>(<span class="dt">offense =</span> <span class="kw">c</span>(<span class="st">'violent-crime'</span>,<span class="st">'property-crime'</span>), </a>
+<a class="sourceLine" id="cb8-19" data-line-number="19">                 <span class="dt">level =</span> <span class="st">'states'</span>, </a>
+<a class="sourceLine" id="cb8-20" data-line-number="20">                 <span class="dt">level_detail =</span> <span class="kw">c</span>(<span class="st">'DC'</span>,<span class="st">'MA'</span>), </a>
+<a class="sourceLine" id="cb8-21" data-line-number="21">                 <span class="dt">variable =</span> <span class="st">'race'</span>)</a></code></pre></div>
+</div>
+</div>
+<div id="get-arrest-data" class="section level3">
+<h3>get <strong>Arrest</strong> data</h3>
+<div id="summarize_arrest" class="section level4">
+<h4>summarize_arrest()</h4>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">summarize_arrest</span>(<span class="dt">by_offense_type =</span> <span class="ot">FALSE</span>, </a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">                 <span class="dt">offense =</span> <span class="ot">NULL</span>, </a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">                 <span class="dt">level =</span> <span class="st">'national'</span>, </a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">                 <span class="dt">level_detail =</span> <span class="ot">NULL</span>, </a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">                 variable, </a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">                 since, </a>
+<a class="sourceLine" id="cb9-7" data-line-number="7">                 until,</a>
+<a class="sourceLine" id="cb9-8" data-line-number="8">                 <span class="dt">api_key =</span> <span class="kw">getOption</span>(<span class="st">'fbicrime_api_key'</span>))</a></code></pre></div>
+<p><code>summarize_arrest()</code> queries arrest information. It differs from the other querying functions in that, first, you can choose whether to summarize by offense type or not with parameter <code>by_offense_type</code>, and the function will only return arrest data of your chosen offense type(s); second, you can specify a time span for querying with parameters <code>since</code> and <code>until</code>.</p>
+<ul>
+<li><p>Parameters <code>offense</code>, <code>level</code>, and <code>level_detail</code> have the same rules as they are in <code>count_offense()</code>.</p></li>
+<li><p>Parameter <code>variable</code> is similar to that of <code>summarize_victim()</code>, it is a required string which specifies the rule for arrgregation. However, the availale arguments for this parameter vary greatly for different endpoints of the API. So please refer to the <a href="https://crime-data-explorer.fr.cloud.gov/api">API document</a> for details.</p></li>
+<li><p><code>by_offense_type</code>, a boolean, where <code>TRUE</code> means to summarize by offense type and <code>FALSE</code> means to return information about all offense types. If omitted, <code>FALSE</code> is assumed.</p></li>
+<li><p><code>since</code> and <code>until</code>, two required numeric parameters, they together define the time span for querying.</p></li>
+<li><p><code>api_key</code>, a string. Use this parameter to input the API key for one time use. Alternatively, you can call the function <code>set_fbi_crime_api_key()</code> first to save the key as a global option for later usage.</p></li>
+</ul>
+<p>Here are some examples:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">summarize_arrest</span>(<span class="dt">by_offense_type =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">                 <span class="dt">offense =</span> <span class="kw">c</span>(<span class="st">'aggravated-assault'</span>,<span class="st">'rape'</span>), </a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">                 <span class="dt">level =</span> <span class="st">'states'</span>, </a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">                 <span class="dt">level_detail =</span> <span class="kw">c</span>(<span class="st">'NY'</span>,<span class="st">'MA'</span>), </a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">                 <span class="dt">variable =</span> <span class="st">'race'</span>, </a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">                 <span class="dt">since =</span> <span class="dv">2010</span>, </a>
+<a class="sourceLine" id="cb10-7" data-line-number="7">                 <span class="dt">until =</span> <span class="dv">2011</span>)</a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="kw">summarize_arrest</span>(<span class="dt">by_offense_type =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb10-10" data-line-number="10">                 <span class="dt">offense =</span> <span class="kw">c</span>(<span class="st">'aggravated-assault'</span>,<span class="st">'rape'</span>), </a>
+<a class="sourceLine" id="cb10-11" data-line-number="11">                 <span class="dt">variable =</span> <span class="st">'race'</span>, </a>
+<a class="sourceLine" id="cb10-12" data-line-number="12">                 <span class="dt">since =</span> <span class="dv">2010</span>, </a>
+<a class="sourceLine" id="cb10-13" data-line-number="13">                 <span class="dt">until =</span> <span class="dv">2011</span>)</a>
+<a class="sourceLine" id="cb10-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="kw">summarize_arrest</span>(<span class="dt">by_offense_type =</span> <span class="ot">FALSE</span>, </a>
+<a class="sourceLine" id="cb10-16" data-line-number="16">                 <span class="dt">level =</span> <span class="st">'regions'</span>, </a>
+<a class="sourceLine" id="cb10-17" data-line-number="17">                 <span class="dt">level_detail =</span> <span class="kw">c</span>(<span class="st">'South'</span>,<span class="st">'Midwest'</span>), </a>
+<a class="sourceLine" id="cb10-18" data-line-number="18">                 <span class="dt">variable =</span> <span class="st">'all'</span>, </a>
+<a class="sourceLine" id="cb10-19" data-line-number="19">                 <span class="dt">since =</span> <span class="dv">2015</span>, </a>
+<a class="sourceLine" id="cb10-20" data-line-number="20">                 <span class="dt">until =</span> <span class="dv">2016</span>)</a>
+<a class="sourceLine" id="cb10-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb10-22" data-line-number="22"><span class="kw">summarize_arrest</span>(<span class="dt">by_offense_type =</span> <span class="ot">FALSE</span>, </a>
+<a class="sourceLine" id="cb10-23" data-line-number="23">                 <span class="dt">variable =</span> <span class="st">'all'</span>, </a>
+<a class="sourceLine" id="cb10-24" data-line-number="24">                 <span class="dt">since =</span> <span class="dv">2015</span>, </a>
+<a class="sourceLine" id="cb10-25" data-line-number="25">                 <span class="dt">until =</span> <span class="dv">2016</span>)</a></code></pre></div>
+</div>
+</div>
+</div>
+<div id="validate-arguments" class="section level2">
+<h2>Validate arguments</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">valid_arg_level</span>(level, level_detail)</a></code></pre></div>
+<p><code>valid_arg_level()</code> is a function used to validate the arguments of <code>level</code> and <code>level_detail</code> in the querying functions. It is intended to be called by other querying functions within the fbicrime package, but not supposed to be called by end users.</p>
+<p>It checks two things:</p>
+<ol style="list-style-type: decimal">
+<li><p>whether the input <code>level</code> is legal (i.e. one of ‘agencies’, ‘national’, ‘regions’, ‘states’);</p></li>
+<li><p>whether the input <code>level</code> matches <code>level_detail</code>. In other words, it produces an error when <code>level</code> is ‘national’ but <code>level_detail</code> is not <code>NULL</code>, or when <code>level</code> is not ‘national’ but <code>level_detail</code> is <code>NULL</code> or is not specified.</p></li>
+</ol>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

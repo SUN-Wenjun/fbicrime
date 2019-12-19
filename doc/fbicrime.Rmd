@@ -1,0 +1,242 @@
+---
+title: 'fbicrime: an R warpper for FBI Crime API'
+author: 'Wenjun Sun'
+date: '`r Sys.Date()`'
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{fbicrime: an R warpper for FBI Crime API}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(fbicrime)
+```
+
+This vignette summarizes the functions in the `fbicrime` package. Although most of the information is available in the help document of each function, this vignette brings it all together in one place. 
+
+## Purpose of `fbicrime`
+
+This package is an R wrapper for FBI Crime API, it aims to provide an easy access for R users to the most updated data about offense, offender, victim, and arrest from the FBI API. It also makes it possible to query multiple keywords at one time and return a combined data frame. 
+
+## Set API key
+
+FBI Crime API is part of the Data.gov developer network. A key is required in order to access and use web services available on the Data.gov developer network. You can sign up for an API key at the [API Key Signup of data.gov](https://api.data.gov/signup/). 
+
+For querying data from the FBI Crime API, you need to provide the key. You can eithor input the key to the `api_key` parameter of querying functions each time when you run the query, or you can also save your API key as a global option with the convenience function `set_fbi_crime_api_key()`. This function is for passing the key to the environment, so that you do not need to input the key every time. For example: 
+
+```{r, eval = FALSE}
+set_fbi_crime_api_key('InputYourAPIKeyHere')
+```
+
+## Get data: querying functions
+
+FBI Crime API is a directory-based API. This package covers four categories of crime information - offense, offender, victim, and arrest, and within each category, there are several endpoints. Each of the endpoints has different syntax. 
+
+For each category, the `fricrime` package provides a querying function. The querying functions allow users to specify keywords using variables, avoid navigating among different endpoints, and query multiple keywords at one time and get a combine data frame as the output. 
+
+### get **Offense** data
+
+#### count_offense() 
+
+```{r, eval = FALSE}
+count_offense(offense, 
+              level = 'national', 
+              level_detail = NULL,
+              api_key = getOption('fbicrime_api_key'))
+```
+
+`count_offense()` is a function for querying the count of different types of offense. You can specify offense type and aggregation level with variables:
+
+* `offense`, a string or a list, the offense type(s) to request. Required.
+
+* `level`, a string, the level of aggregation for counting. It can be 'national', 'agencies', 'regions', or 'states'. If omitted, 'national' is assumed.
+
+* `level_detail`, a string or a list. Use this parameter to indicate what are the agencies/regions/states you want to query. For example, 
+  + when `level = 'agencies'`, then specify the ORI code of the agencies in `level_detail`
+  + when `level = 'regions'`, then specify what regions to include here. There are four region categories available for choosing: 'Northeast', 'Midwest', 'West', and 'South'.
+  + when `level = 'states'`, then specify state abbreviations here.
+  
+  But note, when `level = 'national'`, the `level_detail` should be `NULL`.
+
+* `api_key`, a string. Use this parameter to input the API key for one time use. Alternatively, you can call the function `set_fbi_crime_api_key()` first to save the key as a global option for later usage. 
+  
+Here are some examples for `count_offense()`:
+```{r, eval = FALSE}
+count_offense(offense = 'burglary')
+
+count_offense(offense = 'larceny', 
+              level = 'agencies', 
+              level_detail = 'MA0010100')
+
+count_offense(offense = c('burglary','larceny'), 
+              level = 'regions', 
+              = c('South','Northeast'))
+
+count_offense(offense = 'homicide', 
+              level = 'states', 
+              level_detail = c('AL', 'AZ'))
+```
+
+### get **Offender** data
+
+#### summarize_offender()
+
+```{r, eval = FALSE}
+summarize_offender(offense, 
+                   level = 'national', 
+                   level_detail = NULL, 
+                   variable = 'count',
+                   api_key = getOption('fbicrime_api_key'))
+```
+
+`summarize_offender()` queries offender demographic information. Similar to `count_offense()`, you can specify offense type with `offense` parameter and specify aggregation level with `level` and `level_detail` parameters. Apart from that, `summarize_offender()` function also allows you to choose aggregation variable (such as age, ethnicity, sex). 
+
+* Parameters `offense`, `level`, and `level_detail` have the same rules as they are in `count_offense()`. 
+
+* `variable`, a string, it specify the rule for aggregating. For `summarize_offender()`, the argument of `variable` can be 'age', 'ethnicity', 'race', 'sex', or 'count'. If omitted, 'count' is assumed.
+
+* `api_key`, a string. Use this parameter to input the API key for one time use. Alternatively, you can call the function `set_fbi_crime_api_key()` first to save the key as a global option for later usage. 
+
+Here are some examples:
+```{r, eval = FALSE}
+summarize_offender(offense = 'burglary')
+
+summarize_offender(offense = 'aggravated-assault', 
+                   level = 'agencies', 
+                   level_detail = 'MA0010100', 
+                   variable = 'age')
+
+summarize_offender(offense = c('burglary','arson'), 
+                   level = 'regions', 
+                   level_detail = c('Northeast','South'), 
+                   variable = 'sex')
+
+summarize_offender(offense = 'arson', 
+                   level = 'states', 
+                   level_detail = 'NH', 
+                   variable = 'race')
+```
+
+### get **Victim** data
+
+#### summarize_victim()
+
+```{r, eval = FALSE}
+summarize_victim(offense, 
+                 level = 'national', 
+                 level_detail = NULL, 
+                 variable = 'count',
+                 api_key = getOption('fbicrime_api_key'))
+```
+
+`summarize_victim()` is a function that queries victim demographic information. Similar to `summarize_offender()`, it uses four parameters - `offense`, `level`, `level_detail`, and `variable` to specify which segment of victim information to query. 
+
+* Parameters `offense`, `level`, and `level_detail` have the same rules as they are in `count_offense()`. 
+
+* Parameter `variable` is similar to that of function `summarize_offender()`, but `summarize_victim()` also allow you to aggregate based on the relationship between the victim and the offender. So the availabe arguments for the `variable` parameter of this function is: 'age', 'ethnicity', 'race', 'sex', 'count', *and 'relationship'*.
+
+* `api_key`, a string. Use this parameter to input the API key for one time use. Alternatively, you can call the function `set_fbi_crime_api_key()` first to save the key as a global option for later usage. 
+
+Here are some examples:
+```{r, eval = FALSE}
+summarize_victim(offense = 'violent-crime')
+
+summarize_victim(offense = 'aggravated-assault', 
+                 level = 'agencies', 
+                 level_detail = 'MA0010100', 
+                 variable = 'age')
+
+summarize_victim(offense = 'property-crime', 
+                 level = 'regions', 
+                 level_detail = c('Midwest', 'West'), 
+                 variable = 'relationship')
+
+summarize_victim(offense = 'motor-vehicle-theft', 
+                 level = 'states', 
+                 level_detail = 'DC', 
+                 variable = 'sex')
+
+summarize_victim(offense = c('violent-crime','property-crime'), 
+                 level = 'states', 
+                 level_detail = c('DC','MA'), 
+                 variable = 'race')
+```
+
+### get **Arrest** data
+
+#### summarize_arrest()
+
+```{r, eval = FALSE}
+summarize_arrest(by_offense_type = FALSE, 
+                 offense = NULL, 
+                 level = 'national', 
+                 level_detail = NULL, 
+                 variable, 
+                 since, 
+                 until,
+                 api_key = getOption('fbicrime_api_key'))
+```
+
+`summarize_arrest()` queries arrest information. It differs from the other querying functions in that, first, you can choose whether to summarize by offense type or not with parameter `by_offense_type`, and the function will only return arrest data of your chosen offense type(s); second, you can specify a time span for querying with parameters `since` and `until`. 
+
+* Parameters `offense`, `level`, and `level_detail` have the same rules as they are in `count_offense()`. 
+
+* Parameter `variable` is similar to that of `summarize_victim()`, it is a required string which specifies the rule for arrgregation. However, the availale arguments for this parameter vary greatly for different endpoints of the API. So please refer to the [API document](https://crime-data-explorer.fr.cloud.gov/api) for details.
+
+* `by_offense_type`, a boolean, where `TRUE` means to summarize by offense type and `FALSE` means to return information about all offense types. If omitted, `FALSE` is assumed.
+
+* `since` and `until`, two required numeric parameters, they together define the time span for querying. 
+
+* `api_key`, a string. Use this parameter to input the API key for one time use. Alternatively, you can call the function `set_fbi_crime_api_key()` first to save the key as a global option for later usage. 
+
+Here are some examples:
+```{r, eval = FALSE}
+summarize_arrest(by_offense_type = TRUE, 
+                 offense = c('aggravated-assault','rape'), 
+                 level = 'states', 
+                 level_detail = c('NY','MA'), 
+                 variable = 'race', 
+                 since = 2010, 
+                 until = 2011)
+
+summarize_arrest(by_offense_type = TRUE, 
+                 offense = c('aggravated-assault','rape'), 
+                 variable = 'race', 
+                 since = 2010, 
+                 until = 2011)
+
+summarize_arrest(by_offense_type = FALSE, 
+                 level = 'regions', 
+                 level_detail = c('South','Midwest'), 
+                 variable = 'all', 
+                 since = 2015, 
+                 until = 2016)
+
+summarize_arrest(by_offense_type = FALSE, 
+                 variable = 'all', 
+                 since = 2015, 
+                 until = 2016)
+```
+
+
+## Validate arguments
+
+```{r, eval = FALSE}
+valid_arg_level(level, level_detail)
+```
+
+`valid_arg_level()` is a function used to validate the arguments of `level` and `level_detail` in the querying functions. It is intended to be called by other querying functions within the fbicrime package, but not supposed to be called by end users. 
+
+It checks two things:
+
+1. whether the input `level` is legal (i.e. one of 'agencies', 'national', 'regions', 'states');
+
+2. whether the input `level` matches `level_detail`. In other words, it produces an error when `level` is 'national' but `level_detail` is not `NULL`, or when `level` is not 'national' but `level_detail` is `NULL` or is not specified.
