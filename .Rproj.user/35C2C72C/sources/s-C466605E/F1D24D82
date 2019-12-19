@@ -5,7 +5,7 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "4064834697",
+    "hash" : "0",
     "id" : "F1D24D82",
     "lastKnownWriteTime" : 1576101642,
     "last_content_update" : 1576101642907,
@@ -13,7 +13,7 @@
     "project_path" : "R/offense.R",
     "properties" : {
         "cursorPosition" : "27,85",
-        "scrollLine" : "14"
+        "scrollLine" : "0"
     },
     "relative_order" : 2,
     "source_on_save" : false,

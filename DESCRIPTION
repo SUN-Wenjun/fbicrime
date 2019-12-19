@@ -20,6 +20,6 @@ Suggests:
     testthat (>= 2.1.0),
     knitr,
     rmarkdown
-BugReports: https://github.com/wenjun97/fbicrime/issues
-URL: https://github.com/wenjun97/fbicrime
+BugReports: https://github.com/SUN-Wenjun/fbicrime/issues
+URL: https://github.com/SUN-Wenjun/fbicrime
 VignetteBuilder: knitr
