@@ -15,7 +15,7 @@ library(fbicrime)
 
 You need to get a key for the API at https://api.data.gov/signup/
 
-Then you can access FBI crime data by calling function in this package. You can either input your API key each time when use the function or save it as a global variable in your R session using function `set_fbi_crime_api_key('')`.
+Then you can access FBI crime data by calling functions in this package. You can either input your API key each time when use functions or save it as a global variable in your R session using function `set_fbi_crime_api_key('')`.
 
 ## How to find help
 [main help document](https://htmlpreview.github.io/?https://github.com/SUN-Wenjun/fbicrime/blob/master/doc/fbicrime.html)
